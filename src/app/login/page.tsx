@@ -28,18 +28,21 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        login(data.token); // Use the login function from context
+        login(data.token);
         router.push('/');
       } else {
         setError(data.error || 'Login failed');
       }
-    } catch (error) {
-      setError(`An error occurred: ${error.message}`);
+    } catch (err) {
+      // Type guard for Error object
+      const error = err as Error;
+      setError(error?.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
   };
 
+  
   return (
     <main className="min-h-screen bg-[#0d1216] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
