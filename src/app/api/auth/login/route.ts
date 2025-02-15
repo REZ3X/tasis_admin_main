@@ -13,12 +13,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; // Add fallback 
 export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
-    const [rows] = await pool.query(
-      'SELECT * FROM admin_users WHERE username = ?',
-      [username]
-    );
-
-    const users = rows as AdminUser[];
+    
+    // Single query to get user
     const [rows] = await pool.query(
       'SELECT * FROM admin_users WHERE username = ?',
       [username]
