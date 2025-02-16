@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import { pool, ensureConnection } from '../db/db';
 import { RowDataPacket } from 'mysql2';
 
+/**
+ * GET endpoint to retrieve all reports from the database
+ * @returns NextResponse with reports data or error message
+ * Response format: { success: boolean, reports?: RowDataPacket[], error?: string }
+ */
 export async function GET() {
     try {
         const isConnected = await ensureConnection();

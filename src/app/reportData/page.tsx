@@ -1,4 +1,8 @@
-'use client'
+/**
+ * ReportDataPage Component
+ * Displays a page containing a list of reports/complaints (pengaduan)
+ * Includes navigation back to home and renders the ReportsList component
+ */
 
 import ReportsList from '@/components/pengaduan/reportsList';
 import Link from 'next/link';

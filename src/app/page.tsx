@@ -1,3 +1,9 @@
+/**
+ * Home Component - Main dashboard page for TASIS Admin
+ * Provides navigation to report management and logout functionality
+ * @returns {JSX.Element} The rendered dashboard page
+ */
+
 'use client'
 
 import { useState } from 'react';
@@ -9,6 +15,10 @@ export default function Home() {
   const { logout } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  /**
+   * Handles user logout process with loading state
+   * Prevents multiple logout attempts while processing
+   */
   const handleLogout = async () => {
     if (isLoggingOut) return;
     

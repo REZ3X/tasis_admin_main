@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+/**
+ * Authentication middleware for TASIS admin panel
+ * Handles redirection based on authentication status
+ * - Redirects to login page if no token is present
+ * - Redirects to home if already authenticated and trying to access login
+ */
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('adminToken');
   const isLoginPage = request.nextUrl.pathname === '/login';

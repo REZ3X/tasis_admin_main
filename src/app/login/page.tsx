@@ -1,5 +1,13 @@
 'use client'
 
+/**
+ * Login Page Component
+ * 
+ * Handles user authentication through a login form interface.
+ * Features username/password input with error handling and loading states.
+ * Uses the AuthContext for managing authentication state.
+ */
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,7 +19,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +41,6 @@ export default function LoginPage() {
         setError(data.error || 'Login failed');
       }
     } catch (err) {
-      // Type guard for Error object
       const error = err as Error;
       setError(error?.message || 'An unexpected error occurred');
     } finally {
@@ -42,7 +48,6 @@ export default function LoginPage() {
     }
   };
 
-  
   return (
     <main className="min-h-screen bg-[#0d1216] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -67,9 +72,7 @@ export default function LoginPage() {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full p-3 bg-[#0d1216] border border-[#594925]/20 rounded-lg
-                  text-gray-100 focus:border-[#ebae3a] focus:ring-1 focus:ring-[#ebae3a]
-                  transition-colors"
+                className="w-full p-3 bg-[#0d1216] border border-[#594925]/20 rounded-lg text-gray-100 focus:border-[#ebae3a] focus:ring-1 focus:ring-[#ebae3a] transition-colors"
                 required
               />
             </div>
@@ -83,9 +86,7 @@ export default function LoginPage() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 bg-[#0d1216] border border-[#594925]/20 rounded-lg
-                  text-gray-100 focus:border-[#ebae3a] focus:ring-1 focus:ring-[#ebae3a]
-                  transition-colors"
+                className="w-full p-3 bg-[#0d1216] border border-[#594925]/20 rounded-lg text-gray-100 focus:border-[#ebae3a] focus:ring-1 focus:ring-[#ebae3a] transition-colors"
                 required
               />
             </div>
@@ -93,8 +94,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#ebae3a] text-[#0d1216] rounded-lg font-semibold
-                hover:bg-[#efbb4a] transition-colors disabled:opacity-50"
+              className="w-full py-3 bg-[#ebae3a] text-[#0d1216] rounded-lg font-semibold hover:bg-[#efbb4a] transition-colors disabled:opacity-50"
             >
               {loading ? 'Logging in...' : 'Login'}
             </button>

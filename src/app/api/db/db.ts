@@ -1,5 +1,14 @@
 import mysql from 'mysql2/promise';
 
+/**
+ * Database connection configuration and management module.
+ * Creates and manages a MySQL connection pool with retry mechanisms and connection monitoring.
+ */
+
+/**
+ * Creates a new MySQL connection pool with optimized settings for production use.
+ * @returns {Pool} MySQL connection pool instance
+ */
 const createPool = () => mysql.createPool({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '3306'),
@@ -7,13 +16,13 @@ const createPool = () => mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   waitForConnections: true,
-  connectionLimit: 3, // Reduced further
+  connectionLimit: 3,
   queueLimit: 0,
   ssl: {
     rejectUnauthorized: false,
     minVersion: 'TLSv1.2'
   },
-  connectTimeout: 20000, // Reduced timeout
+  connectTimeout: 20000,
   enableKeepAlive: true,
   keepAliveInitialDelay: 5000,
   maxIdle: 60000,
@@ -22,9 +31,14 @@ const createPool = () => mysql.createPool({
 
 let pool = createPool();
 let isConnected = false;
-const MAX_RETRIES = 3; // Reduced retries
+const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000
 
+/**
+ * Attempts to establish a database connection with retry mechanism.
+ * @param {number} retries - Number of retry attempts remaining
+ * @returns {Promise<boolean>} Success status of the connection attempt
+ */
 async function connectWithRetry(retries = MAX_RETRIES): Promise<boolean> {
   try {
     const connection = await pool.getConnection();
@@ -39,8 +53,6 @@ async function connectWithRetry(retries = MAX_RETRIES): Promise<boolean> {
     if (retries > 0) {
       console.log(`Retrying in ${RETRY_DELAY/1000} seconds...`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-      
-      // Create a new pool for retry
       pool = createPool();
       return connectWithRetry(retries - 1);
     }
@@ -50,13 +62,16 @@ async function connectWithRetry(retries = MAX_RETRIES): Promise<boolean> {
   }
 }
 
+/**
+ * Ensures database connection is active and valid.
+ * @returns {Promise<boolean>} Connection status
+ */
 async function ensureConnection(): Promise<boolean> {
   try {
     if (!isConnected) {
       return connectWithRetry();
     }
     
-    // Verify existing connection
     const connection = await pool.getConnection();
     await connection.query('SELECT 1');
     connection.release();
@@ -68,7 +83,6 @@ async function ensureConnection(): Promise<boolean> {
   }
 }
 
-// Periodic connection check
 setInterval(async () => {
   try {
     if (isConnected) {
@@ -80,9 +94,8 @@ setInterval(async () => {
     console.error('Periodic connection check failed:', err);
     isConnected = false;
   }
-}, 30000); // Check every 30 seconds
+}, 30000);
 
-// Cleanup on process exit
 process.on('SIGINT', async () => {
   try {
     await pool.end();

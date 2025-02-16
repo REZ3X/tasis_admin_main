@@ -2,11 +2,16 @@ import { NextResponse } from 'next/server';
 import { pool, ensureConnection } from '../db/db';
 import { ResultSetHeader } from 'mysql2';
 
+/**
+ * Updates the status of a report in the database
+ * @route PUT /api/updateReportStatus
+ * @param {Request} request - Contains reportId and status in the body
+ * @returns {Promise<NextResponse>} JSON response with success status and data
+ */
 export async function PUT(request: Request) {
     try {
         const { reportId, status } = await request.json();
 
-        // Validate input
         if (!reportId || !status) {
             return NextResponse.json(
                 { success: false, error: 'Missing required fields' },

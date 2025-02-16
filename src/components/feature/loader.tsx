@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
+/**
+ * AdminLoader Component
+ * Displays a loading screen with a spinning animation when the admin panel is initializing.
+ * The loader automatically dismisses itself after 1.5 seconds.
+ * Features a centered spinning circle with "ADMIN" text and a loading message.
+ */
 export default function AdminLoader() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,9 +28,7 @@ export default function AdminLoader() {
         transition-opacity duration-500`}
     >
       <div className="relative">
-        {/* Main Content */}
         <div className="flex flex-col items-center">
-          {/* Spinner */}
           <div className="relative w-24 h-24 mb-8">
             <svg
               className="absolute inset-0"
@@ -32,7 +36,6 @@ export default function AdminLoader() {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Background Circle */}
               <circle
                 cx="50"
                 cy="50"
@@ -41,7 +44,6 @@ export default function AdminLoader() {
                 strokeWidth="2"
                 className="opacity-20"
               />
-              {/* Spinning Arc */}
               <path
                 d="M50 5 A45 45 0 0 1 95 50"
                 stroke="#ebae3a"
@@ -52,7 +54,6 @@ export default function AdminLoader() {
               />
             </svg>
 
-            {/* Admin Label */}
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-xl font-bold text-[#ebae3a]">
                 ADMIN
@@ -60,7 +61,6 @@ export default function AdminLoader() {
             </div>
           </div>
 
-          {/* Loading Text */}
           <div className="text-center">
             <p className="text-[#ebae3a] text-sm animate-pulse">
               Memuat Panel Admin...
@@ -68,7 +68,6 @@ export default function AdminLoader() {
           </div>
         </div>
 
-        {/* Decorative Background Elements */}
         <div className="absolute -inset-10 -z-10">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#ebae3a]/5 rounded-full blur-2xl"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#594925]/5 rounded-full blur-2xl"></div>
